@@ -74,7 +74,12 @@ export const ModalProduct = ({ action, id }) => {
         CategoryService.getAll()
             .then((result) => {
                 if (result.length > 0) {
-                    setCategories(result);
+                    setCategories([{
+                        category_id: 0,
+                        name_category: "Selecione uma categoria"
+                    },
+                    ...result
+                    ]);
                 };
 
                 if (result?.status === false) {
