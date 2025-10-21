@@ -18,7 +18,7 @@ export const Menu = () => {
     const { setLoading } = useLoader();
     const navigate = useNavigate();
     const { setToggleView } = useToggleView();
-    const { debounce } = useDebounce(500);
+    const { debounce } = useDebounce(1500);
 
     const { id } = useParams();
     const { verifyIfClientId } = useVerifyIfClientId(id);
