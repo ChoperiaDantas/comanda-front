@@ -17,7 +17,7 @@ import { OrderService } from "../../service/order/OrderService";
 
 export const Waiter = () => {
 
-    const { debounce } = useDebounce(700);
+    const { debounce } = useDebounce(1500);
 
     const navigate = useNavigate();
 
@@ -39,7 +39,11 @@ export const Waiter = () => {
             status: 0,
             quantity: 0,
             obs: "",
-            new_stock: [undefined, undefined]
+            new_stock: [undefined, undefined],
+            old_quantity: 0,
+            new_quantity: 0,
+            printer_name: [],
+
         },
         screens: "",
         product_name: "",
@@ -73,7 +77,10 @@ export const Waiter = () => {
                                 screens: updateOrder.screens,
                                 action: updateOrder.action,
                                 product_name: updateOrder.product_name,
-                                client
+                                client,
+                                old_quantity: updateOrder.data.old_quantity,
+                                new_quantity: updateOrder.data.new_quantity,
+                                printer_name: updateOrder.data.printer_name,
                             };
 
                             setLoading(false);
@@ -164,6 +171,9 @@ export const Waiter = () => {
             status: 1,
             quantity: quantity,
             obs: obs,
+            old_quantity: 0,
+            new_quantity: 0,
+            printer_name: ["CAIXA"], // condicionar impressão pela tela do produto
         };
 
         if (action === "+") {
@@ -171,10 +181,14 @@ export const Waiter = () => {
 
             if (new_stock > 0) {
                 if (updateOrder.data.quantity) {
+                    data.old_quantity = quantity;
                     data.quantity = updateOrder.data.quantity + 1;
+                    data.new_quantity = data.quantity;
                     data.new_stock = [updateOrder.data.new_stock[0] - 1, product_id];
                 } else {
+                    data.old_quantity = quantity;
                     data.quantity = data.quantity + 1;
+                    data.new_quantity = data.quantity;
                     data.new_stock = [stock - 1, product_id];
                 };
             } else {
@@ -187,10 +201,14 @@ export const Waiter = () => {
 
             if (new_stock >= 0 && new_quantity > 1) {
                 if (updateOrder.data.quantity) {
+                    data.old_quantity = quantity;
                     data.quantity = updateOrder.data.quantity - 1;
+                    data.new_quantity = data.quantity;
                     data.new_stock = [updateOrder.data.new_stock[0] + 1, product_id];
                 } else {
+                    data.old_quantity = quantity;
                     data.quantity = data.quantity - 1;
+                    data.new_quantity = data.quantity;
                     data.new_stock = [stock + 1, product_id];
                 };
             } else {
