@@ -140,8 +140,7 @@ export const PaymentApproved = () => {
                 token: item.notify_id,
                 notification: {
                     title: "Pedido Online",
-                    body: "Aê! Tem pedido entrando, vê lá!",
-                    icon: `/favicon.ico`
+                    body: "Aê! Tem pedido entrando, vê lá!"
                 },
                 webpush: {
                     fcmOptions: {
